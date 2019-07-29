@@ -1,4 +1,6 @@
-package CoreJavaVolumePartOne.chapter14.part4;/* @program: CoreJavaVolumePartOne
+package CoreJavaVolumePartOne.chapter14.part4;
+
+/* @program: CoreJavaVolumePartOne
  * @description: A bank with a number of bank accounts that uses locks for serializing access.
  * @chineseDescription: 程序清单14-7
  * @author: LiuDongMan
@@ -39,10 +41,10 @@ public class Bank {
             accounts[from] -= amount;
             System.out.printf(" %10.2f from %d to %d", amount, from, to);
             accounts[to] += amount;
-            System.out.printf(" Total Balance: %10.2f\n", getTotalBalance());
+            System.out.printf(" Total Balance: %10.2f\n", getTotalBalance());   // 被一个锁保护的代码可以调用另一个使用相同的锁的方法
             sufficientFunds.signalAll();
         } finally {
-            bankLock.unlock();
+            bankLock.unlock();  // 一定要释放锁，不然发生异常之后，会让后面的线程都被阻塞
         }
     }
 
