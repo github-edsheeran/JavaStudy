@@ -21,32 +21,17 @@ public class ConcurrentCooperationModel02 {
 class Canteen implements Runnable {
     private Table table;
 
-    public Table getTable() {
-        return table;
-    }
-
-    public void setTable(Table table) {
-        this.table = table;
-    }
-
     public Canteen(Table table) {
         this.table = table;
     }
 
-    public Canteen() {
-    }
-
     @Override
     public void run() {
-        for (int i = 0; i < 20; i++) {
+        for (int i = 0; i < 100; i++) {
             if (i % 2 == 0) {
-                String food = "烤鸭";
-                System.out.println("食堂上了: " + food);
-                table.serve(food);
+                this.table.serve("烤鸭");
             } else {
-                String food = "炸鸡";
-                System.out.println("食堂上了: " + food);
-                table.serve(food);
+                this.table.serve("炸鸡");
             }
         }
     }
@@ -58,25 +43,14 @@ class Canteen implements Runnable {
 class Employee implements Runnable {
     private Table table;
 
-    public Table getTable() {
-        return table;
-    }
-
-    public void setTable(Table table) {
-        this.table = table;
-    }
-
     public Employee(Table table) {
         this.table = table;
     }
 
-    public Employee() {
-    }
-
     @Override
     public void run() {
-        for (int i = 0; i < 20; i++) {
-            System.out.println("员工享用了: " + table.eat());
+        for (int i = 0; i < 100; i++) {
+            table.eat();
         }
     }
 }
@@ -96,7 +70,7 @@ class Table {
      */
     private boolean flag = false;
 
-    public synchronized String eat() {
+    public synchronized void eat() {
         if (!flag) {
             try {
                 this.wait();
@@ -105,10 +79,9 @@ class Table {
             }
         }
 
+        System.out.println("员工享受了: " + this.food);
         this.notifyAll();
         this.flag = false;
-
-        return this.food;
     }
 
     public synchronized void serve(String food) {
@@ -121,22 +94,11 @@ class Table {
         }
 
         this.food = food;
+        System.out.println("食堂准备了: " + food);
         this.notifyAll();
-        flag = true;
-    }
-
-    public String getFood() {
-        return food;
-    }
-
-    public void setFood(String food) {
-        this.food = food;
+        this.flag = true;
     }
 
     public Table() {
-    }
-
-    public Table(String food) {
-        this.food = food;
     }
 }
