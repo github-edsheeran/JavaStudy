@@ -7,8 +7,7 @@ package CoreJavaVolumePartOne.chapter14.part4;
  * @author: LiuDongMan
  * @createdDate: 2019-07-29 16:30
  **/
-public class SynchBankTest {
-
+public class LockConditionBankTest {
     public static final int NACCOUNTS = 100;
     public static final double INITIAL_BALANCE = 1000;
     public static final double MAX_AMOUNT = 1000;
@@ -39,5 +38,4 @@ public class SynchBankTest {
             t.start();
         }
     }
-
 }

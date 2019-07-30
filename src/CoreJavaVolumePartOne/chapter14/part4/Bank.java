@@ -29,6 +29,13 @@ public class Bank {
         sufficientFunds = bankLock.newCondition();
     }
 
+    /**
+     * Transfers money from one account to another
+     * @param from the account to transfer from
+     * @param to the account to transfer to
+     * @param amount the amount to transfer
+     * @throws InterruptedException
+     */
     public void transfer(int from, int to, double amount) throws InterruptedException {
         bankLock.lock();
 
