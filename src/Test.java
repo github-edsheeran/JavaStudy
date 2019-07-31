@@ -9,14 +9,16 @@ import java.io.IOException;
  **/
 public class Test {
     public static void main(String[] args) {
-        MyThread01 myThread01 = new MyThread01();
-        Thread thread01 = new Thread(myThread01);
-        thread01.setUncaughtExceptionHandler((thread, throwable) -> {
-            System.out.println("UncaughtExceptionHandler catch a Exception");
-            System.out.println(throwable.getMessage());
-        });
+//        MyThread01 myThread01 = new MyThread01();
+//        Thread thread01 = new Thread(myThread01);
+//        thread01.setUncaughtExceptionHandler((thread, throwable) -> {
+//            System.out.println("UncaughtExceptionHandler catch a Exception");
+//            System.out.println(throwable.getMessage());
+//        });
+//
+//        thread01.start();
 
-        thread01.start();
+        System.out.println(Thread.activeCount());
     }
 }
 

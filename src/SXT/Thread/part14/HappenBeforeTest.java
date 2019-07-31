@@ -34,6 +34,8 @@ public class HappenBeforeTest {
             t1.start();
             t2.start();
 
+            System.out.println(Thread.activeCount());
+
             // 调用线程的join方法，合并线程，这样，主线程只有等待t1、t2线程运行完毕返回结果之后才会继续运行
             t1.join();
             t2.join();
