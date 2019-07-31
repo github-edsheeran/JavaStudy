@@ -51,8 +51,21 @@ public class DCLSingletonPattern {
         return instance;
     }
 
+    /**
+     * 缺少同步操作，获取的不是同一个对象
+     * @param delayTime
+     * @return
+     */
     public static DCLSingletonPattern getWrongInstance(long delayTime) {
-        return new DCLSingletonPattern();
+        if (instance == null) {
+            try {
+                Thread.sleep(delayTime);    // 模拟初始化对象的延时操作，也可以加入到上面到正确获取对象的方法中
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            instance = new DCLSingletonPattern();
+        }
+        return instance;
     }
 
     public static void main(String[] args) {
@@ -60,7 +73,6 @@ public class DCLSingletonPattern {
             System.out.println(DCLSingletonPattern.getInstance());
         }).start();
 
-        System.out.println(Thread.activeCount());
         System.out.println(DCLSingletonPattern.getInstance());
     }
 }
