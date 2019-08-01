@@ -2,7 +2,7 @@ package SXT.Thread.part2;
 
 import java.util.concurrent.*;
 
-/* @program: SXT
+/* @program: JavaStudy
  * @description:
  * @chineseDescription: 了解下另一种创建线程的方式：Callable接口
  * @author: LiuDongMan

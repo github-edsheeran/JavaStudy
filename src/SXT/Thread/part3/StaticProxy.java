@@ -1,6 +1,6 @@
 package SXT.Thread.part3;
 
-/* @program: CoreJavaVolumePartOne
+/* @program: JavaStudy
  * @description:
  * @chineseDescription: 初步了解静态代理，一般情况下分为真实角色和代理角色，并且实现同一个接口才能进行代理行为
  * @author: LiuDongMan

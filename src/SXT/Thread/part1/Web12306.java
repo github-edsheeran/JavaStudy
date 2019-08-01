@@ -1,5 +1,5 @@
 package SXT.Thread.part1;
-/* @program: SXT
+/* @program: JavaStudy
  * @description:
  * @chineseDescription: 模拟12306抢票
  * @author: LiuDongMan

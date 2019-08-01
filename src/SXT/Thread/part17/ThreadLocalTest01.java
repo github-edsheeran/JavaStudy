@@ -27,6 +27,25 @@ public class ThreadLocalTest01 {
     private static ThreadLocal<Integer> threadLocal = ThreadLocal.withInitial(() -> 200);
 
     public static void main(String[] args) {
+        // 获取值
         System.out.println(Thread.currentThread().getName() + " --> " + threadLocal.get());
+
+        // 两个线程在ThreadLocal中有着属于自己独立的空间，数据互不影响
+        new Thread(new MyThread()).start();
+        new Thread(new MyThread()).start();
+
+        threadLocal.set(99);
+
+        System.out.println(Thread.currentThread().getName() + " --> " + threadLocal.get());
+    }
+
+    static class MyThread implements Runnable {
+
+        @Override
+        public void run() {
+            // 设置值
+            threadLocal.set((int) (Math.random() * 99));
+            System.out.println(Thread.currentThread().getName() + " --> " + threadLocal.get());
+        }
     }
 }

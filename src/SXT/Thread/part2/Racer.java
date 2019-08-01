@@ -1,6 +1,6 @@
 package SXT.Thread.part2;
 
-/* @program: SXT
+/* @program: JavaStudy
  * @description:
  * @chineseDescription: 模拟龟兔赛跑
  * @author: LiuDongMan
