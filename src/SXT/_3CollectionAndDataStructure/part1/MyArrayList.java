@@ -13,10 +13,17 @@ public class MyArrayList<E> {
     private static int DEFAULT_CAPACITY = 10;
     private Object[] elementData;
 
+    /**
+     * 构造一个默认容量的MyArrayList
+     */
     public MyArrayList() {
         elementData = new Object[DEFAULT_CAPACITY];
     }
 
+    /**
+     * 构造一个指定容量的MyArrayList
+     * @param capacity
+     */
     public MyArrayList(int capacity) {
         if (capacity == 0) {
             elementData = new Object[DEFAULT_CAPACITY];
@@ -27,12 +34,20 @@ public class MyArrayList<E> {
         }
     }
 
+    /**
+     * 检查索引是否合法
+     * @param index
+     */
     private void rangeCheck(int index) {
         if (index < 0 || index >= size) {
             throw new RuntimeException("索引越界!");
         }
     }
 
+    /**
+     * 添加元素
+     * @param element
+     */
     public void add(E element) {
         if (size == elementData.length) {
             Object[] newElementData = new Object[elementData.length + (elementData.length >> 1)];
@@ -43,12 +58,21 @@ public class MyArrayList<E> {
         elementData[size++] = element;
     }
 
+    /**
+     * 获取指定索引位置上的元素
+     * @param index
+     * @return
+     */
     public E get(int index) {
         rangeCheck(index);
 
         return (E) elementData[index];
     }
 
+    /**
+     * 移除MyArrayList中和传入参数值相同的元素
+     * @param element
+     */
     public void remove(E element) {
         for (int i = 0; i < size; i++) {
             if (element.equals(get(i))) {
@@ -57,6 +81,10 @@ public class MyArrayList<E> {
         }
     }
 
+    /**
+     * 移除指定索引位置上的元素
+     * @param index
+     */
     public void remove(int index) {
         rangeCheck(index);
 
@@ -69,10 +97,18 @@ public class MyArrayList<E> {
         elementData[--size] = null;
     }
 
+    /**
+     * 返回元素个数
+     * @return
+     */
     public int size() {
         return size;
     }
 
+    /**
+     * 判断是否为空
+     * @return
+     */
     public boolean isEmpty() {
         return size == 0 ? true : false;
     }
@@ -82,6 +118,11 @@ public class MyArrayList<E> {
         return Arrays.toString(elementData);
     }
 
+    /**
+     * 替换指定索引位置上的元素
+     * @param element
+     * @param index
+     */
     public void set(E element, int index) {
         rangeCheck(index);
 

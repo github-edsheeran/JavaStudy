@@ -12,10 +12,14 @@ public class MyLinkedList<E> {
     private Node<E> last;
     private int size;
 
+    /**
+     * 添加元素
+     * @param element
+     */
     public void add(E element) {
         // 这个地方不能用first，因为在加入第三个元素的时候，会把first的next设置为包含第三个元素的节点
         Node<E> temp = last;
-        Node newNode = new Node<>(temp, element, null);
+        Node<E> newNode = new Node<>(temp, element, null);
         last = newNode;
 
         // 如果last为空，证明first也为空
@@ -29,28 +33,30 @@ public class MyLinkedList<E> {
         size++;
     }
 
+    /**
+     * 检查索引合法性
+     * @param index
+     */
     private void rangCheck(int index) {
         if (index < 0 || index >= size) {
             throw new RuntimeException("索引越界!");
         }
     }
-    // a, b, c现在要获取1索引的值
+
+    /**
+     * 获取指定索引位置上的元素
+     * @param index
+     * @return
+     */
     public E get(int index) {
         return getNode(index).item;
     }
 
-    private static class Node<E> {
-        Node<E> prev;
-        E item;
-        Node<E> next;
-
-        Node(Node<E> prev, E item, Node<E> next) {
-            this.prev = prev;
-            this.item = item;
-            this.next = next;
-        }
-    }
-
+    /**
+     * 私有获取节点对象的方法
+     * @param index
+     * @return
+     */
     private Node<E> getNode(int index) {
         rangCheck(index);
 
@@ -94,6 +100,10 @@ public class MyLinkedList<E> {
         return sb.toString();
     }
 
+    /**
+     * 移除指定索引位置上的元素
+     * @param index
+     */
     public void remove(int index) {
         Node<E> temp = getNode(index);
         Node<E> prev = temp.prev;
@@ -119,10 +129,19 @@ public class MyLinkedList<E> {
         temp = null;
     }
 
+    /**
+     * 返回元素个数
+     * @return
+     */
     public int size() {
         return size;
     }
 
+    /**
+     * 在指定索引位置插入元素
+     * @param element
+     * @param index
+     */
     public void add(E element, int index) {
         Node<E> temp = getNode(index);
         Node<E> prev = temp.prev;
@@ -131,28 +150,38 @@ public class MyLinkedList<E> {
 
         if (prev == null) {
             first = newNode;
-            newNode.next = temp;
+        } else {
+            prev.next = newNode;
         }
 
-        if (next == null) {
-            last = newNode;
-        }
-
-        prev.next = newNode;
         temp.prev = newNode;
 
         // 额外注意
         size++;
     }
 
-    public static void main(String[] args) {
-        MyLinkedList<String> list = new MyLinkedList<>();
+    private static class Node<E> {
+        Node<E> prev;
+        E item;
+        Node<E> next;
 
-        list.add("a");
-        list.add("b");
-        list.add("d");
-        list.add("c", 2);
-        list.add("1", 0);
+        Node(Node<E> prev, E item, Node<E> next) {
+            this.prev = prev;
+            this.item = item;
+            this.next = next;
+        }
+    }
+
+    public static void main(String[] args) {
+        MyLinkedList<Integer> list = new MyLinkedList<>();
+
+        list.add(1);
+        list.add(2);
+        list.add(3);
+        list.add(4);
+
+        list.add(6, 0);
+        list.add(8, 4);
 
         System.out.println(list.toString());
     }
