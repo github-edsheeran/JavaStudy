@@ -23,16 +23,54 @@ public class MyHashMap<K, V> {
     public void put(K key, V value) {
         int keyHashCode = key.hashCode();
         int hash = hash(keyHashCode, table.length);
+        Node<K, V> newNode = new Node<>(hash, key, value, null);
 
-        if (table[hash] == null) {
-            Node<K, V> newNode = new Node<>(hash, key, value, null);
+        if (size == 0) {
+            table[hash] = newNode;
         } else {
+            Node<K, V> temp = table[hash];
+            Node<K, V> next = null;
+            Node<K, V> prev = null;
 
+            for (int i = 0; i < size; i++) {
+                if (key.equals(temp.key)) {
+                    next = temp.next;
+                    break;
+                }
+
+                if (temp.next == null) {
+                    break;
+                }
+
+                temp = temp.next;
+                prev = temp;
+            }
+
+            temp.next = newNode;
         }
+
+        size++;
+    }
+
+    public V get(V key) {
+        int keyHashCode = key.hashCode();
+        int hash = hash(keyHashCode, table.length);
+        Node<K, V> temp = table[hash];
+        V value = null;
+
+        for (int i = 0; i < size; i++) {
+            if (key.equals(temp.key)) {
+                value = temp.value;
+                return value;
+            }
+
+            temp = temp.next;
+        }
+
+        return null;
     }
 
     private int hash(int hashCode, int length) {
-        System.out.println(hashCode & (length - 1));
         return hashCode & (length - 1);
     }
 
@@ -55,6 +93,11 @@ public class MyHashMap<K, V> {
 
     public static void main(String[] args) {
         MyHashMap<String, String> map = new MyHashMap<>(17);
+
         map.put("1", "a");
+        map.put("2", "b");
+        map.put("3", "c");
+
+        System.out.println(map.get(""));
     }
 }
