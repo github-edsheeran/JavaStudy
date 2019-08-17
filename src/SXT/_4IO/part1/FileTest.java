@@ -1,7 +1,6 @@
 package SXT._4IO.part1;
 
 import java.io.File;
-import java.io.IOException;
 
 /**
  * @program: JavaStudy
@@ -11,6 +10,62 @@ import java.io.IOException;
  * @createdDate: 2019-08-16 15:11
  **/
 public class FileTest {
+    private String path;
+    private int size;
+    private File src;
+    private int fileCount;
+    private int dirCount = -1;  // 如果传入的是文件夹路径，这个时候遍历文件夹个数的时候会把自己也给算上，因此赋值-1
+
+    public FileTest() {
+    }
+
+    public FileTest(String path) {
+        this.path = path;
+        this.src = new File(path);
+        countDirSize(src);
+    }
+
+    /**
+     * 根据传入的目录文件对象，统计文件夹中所有文件的大小，以及文件夹和文件的个数
+     * @param file
+     */
+    private void countDirSize(File file) {
+        if (null != file && file.exists()) {
+            if (file.isFile()) {
+                size += file.length();
+                fileCount++;
+            } else {
+                dirCount++;
+                for (File listFile : file.listFiles()) {
+                    countDirSize(listFile);
+                }
+            }
+        }
+    }
+
+    /**
+     * 打印子孙级目录和文件的名称
+     * @param file 传入的目录文件对象
+     * @param level 所在层级
+     */
+    public void filesRecursion(File file, int level) {
+        // 根据所在层级打印文件前缀符
+        for (int i = 0; i < level; i++) {
+            System.out.print("-");
+        }
+
+        System.out.println(file.getName());
+
+        // 递归头
+        if (null == file || !file.exists()) {
+            return;
+        } else if (file.isDirectory()) {    // 递归体
+            for (File f : file.listFiles()) {
+                filesRecursion(f, level + 1);   // 注意，这个地方不能使用自增操作，这样会让level自身的值加上1
+            }
+        }
+    }
+
     public static void main(String[] args) {
         /**
          * 文件路径中分隔符的两种形式
@@ -91,6 +146,52 @@ public class FileTest {
 
         // delete方法
         File file18 = new File("D:/WorkSpace/IdeaWorkSpace/JavaStudy/Images/OI.png");
-        System.out.println(file18.delete());
+//        System.out.println(file18.delete());
+
+        /**
+         * mkdir: 创建文件夹，如果父目录不存在，则创建失败
+         * mkdirs: 创建文件夹，如果父目录不存在，则一起创建
+         * list: 返回下级文件和文件夹的名称，为字符串数组
+         * listFiles: 返回下级文件和文件夹，为File数组
+         * listRoots: 返回所有的根路径
+         */
+        File file19 = new File("D:/WorkSpace/IdeaWorkSpace/JavaStudy");
+        String[] subNames = file19.list();
+//        for (int i = 0; i < subNames.length; i++) {
+//            System.out.println(subNames[i]);
+//        }
+
+        File file20 = new File("D:/WorkSpace/IdeaWorkSpace/JavaStudy");
+        File[] subFiles = file20.listFiles();
+//        for (int i = 0; i < subFiles.length; i++) {
+//            System.out.println(subFiles[i].getAbsolutePath());
+//        }
+
+        File file21 = new File("D:/WorkSpace/IdeaWorkSpace/JavaStudy");
+        File[] roots = file21.listRoots();
+//        for (int i = 0; i < roots.length; i++) {
+//            System.out.println(roots[i].getAbsolutePath());
+//        }
+
+        FileTest test = new FileTest("D:/WorkSpace/IdeaWorkSpace/JavaStudy/src/SXT");
+//        test.filesRecursion(new File("D:/WorkSpace/IdeaWorkSpace/JavaStudy/src/SXT"), 0);
+//        System.out.println(test.getSize());
+        System.out.println("文件夹个数: " + test.getDirCount() + "; 文件个数: " + test.getFileCount());
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public int getFileCount() {
+        return fileCount;
+    }
+
+    public int getDirCount() {
+        if (dirCount < 0) {
+            return 0;
+        }
+
+        return dirCount;
     }
 }
