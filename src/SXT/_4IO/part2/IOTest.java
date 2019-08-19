@@ -6,6 +6,7 @@ import java.io.*;
  * @program: JavaStudy
  * @description:
  * @chineseDescription: 简单理解IO流
+ * 记住一点：数据源到程序，是输入；程序到目的地是输出
  * @author: LiuDongMan
  * @createdDate: 2019-08-17 17:17
  **/
@@ -74,7 +75,7 @@ public class IOTest {
     }
 
     /**
-     * 通过FileOutputStream实现输入内容到文件的功能
+     * 通过FileOutputStream实现输出内容到文件的功能
      */
     public static void exampleThree() {
         // 输入流中，需要保证文件必须存在；而在输出流中，如果文件不存在，则会创建一个文件
@@ -116,13 +117,13 @@ public class IOTest {
         try {
             inputStream = new FileInputStream(inFile);
             outputStream = new FileOutputStream(outFile);
-            byte[] inFlush = new byte[1024];
+            byte[] flush01 = new byte[1024];
             int length = -1;
             StringBuilder sb = new StringBuilder();
 
             // 一边输入一边输出
-            while ((length = inputStream.read(inFlush)) != -1) {
-                outputStream.write(inFlush, 0, length);
+            while ((length = inputStream.read(flush01)) != -1) {
+                outputStream.write(flush01, 0, length);
             }
 
             outputStream.flush();
@@ -189,11 +190,11 @@ public class IOTest {
 
         try {
             reader = new FileReader(file);
-            char[] flush = new char[1024];
+            char[] flush01 = new char[1024];
             int length = -1;
 
-            while ((length = reader.read(flush)) != -1) {
-                System.out.print(new String(flush, 0, length));
+            while ((length = reader.read(flush01)) != -1) {
+                System.out.print(new String(flush01, 0, length));
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -211,7 +212,7 @@ public class IOTest {
     }
 
     /**
-     * 通过FileWriter实现输入内容到文件的功能
+     * 通过FileWriter实现输出内容到文件的功能
      */
     public static void exampleSeven() {
         File file = new File("Files/2.txt");
@@ -262,11 +263,11 @@ public class IOTest {
         byte[] src = "Talk is cheap, show me the code!".getBytes();
         InputStream is = new ByteArrayInputStream(src);
         int length = -1;
-        byte[] flush = new byte[5];
+        byte[] flush01 = new byte[5];
 
         try {
-            while ((length = is.read(flush)) != -1) {
-                System.out.print(new String(flush, 0, length));
+            while ((length = is.read(flush01)) != -1) {
+                System.out.print(new String(flush01, 0, length));
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -279,7 +280,7 @@ public class IOTest {
     public static void exampleTen() {
         byte[] dest = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();   // 由于要使用到子类自己的方法，因此不使用多态
-        byte[] src = "Talk is cheap, show me the code!".getBytes();
+        byte[] src = "Talk is cheap, show me the code!".getBytes(); // 数据源，后期可能从内存中取
         baos.write(src, 0, src.length);
 
         try {
@@ -292,6 +293,71 @@ public class IOTest {
         System.out.println(new String(dest));
     }
 
+    /**
+     * 通过FileInputStream、ByteArrayInputStream、ByteArrayOutputStream、FileOutputStream实现类似于文件的拷贝功能
+     * 其实过程可以简化一些，不过为了更加深入了解，因此，推荐把所学知识都利用起来
+     */
+    public static void exampleEleven() {
+        File inFile = new File("Images/IO.png");
+        File outFile = new File("Images/IO01.png");
+        InputStream is = null;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputStream os = null;
+
+        try {
+            is = new FileInputStream(inFile);
+            byte[] flush01 = new byte[1024];
+            byte[] dest = null;
+            int length = -1;
+
+            /**
+             * 通过FileInputStream读取文件，并利用ByteArrayOutputStream写到内存中，同时赋值给字节数组
+             * 这个地方是从程序写出数据到目的地，因此要使用ByteArrayOutputStream进行输出操作
+             */
+            while ((length = is.read(flush01)) != -1) {
+                baos.write(flush01, 0, length);
+            }
+
+            baos.flush();
+            dest = baos.toByteArray();
+            ByteArrayInputStream bais = new ByteArrayInputStream(dest);
+            os = new FileOutputStream(outFile);
+            byte[] flush02 = new byte[5];
+            length = -1;
+
+            /**
+             * 通过ByteArrayInputStream从字节数组中读取数据到程序，然后利用FileOutputStream写出数据到文件
+             * 这个地方是从字节数组读取数据到程序，因此要使用ByteArrayInputStream进行输入操作
+             */
+            while ((length = bais.read(flush02)) != -1) {
+                os.write(flush02, 0, length);
+            }
+
+            os.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // ByteArrayOutputStream和ByteArrayInputStream无需关闭，而FileInputStream和FileOutputStream遵循先打开后关闭的原则
+            try {
+                if (os != null) {
+                    os.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if (is != null) {
+                    is.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public static void main(String[] args) {
 //        exampleOne();
 //        exampleTwo();
@@ -302,6 +368,7 @@ public class IOTest {
 //        exampleSeven();
 //        exampleEight();
 //        exampleNine();
-        exampleTen();
+//        exampleTen();
+//        exampleEleven();
     }
 }
