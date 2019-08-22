@@ -5,12 +5,12 @@ import java.io.*;
 /**
  * @program: JavaStudy
  * @description:
- * @chineseDescription: 简单理解IO流
+ * @chineseDescription: 简单理解节点IO流
  * 记住一点：数据源到程序，是输入；程序到目的地是输出
  * @author: LiuDongMan
  * @createdDate: 2019-08-17 17:17
  **/
-public class IOTest {
+public class NodeIOTest {
     /**
      * 通过FileInputStream实现单个字节读取文件的功能
      */
