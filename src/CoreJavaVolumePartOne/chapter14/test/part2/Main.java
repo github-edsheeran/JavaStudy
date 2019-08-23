@@ -10,12 +10,12 @@ package CoreJavaVolumePartOne.chapter14.test.part2;
 public class Main {
     public static void main(String[] args) {
 //        // 不加join方法会发现主线程比子线程早结束
-//        System.out.println(Thread.currentThread().getName() + " 主线程运行开始!");
+//        System.out.println(_5Thread.currentThread().getName() + " 主线程运行开始!");
 //        Thread1 mTh1 = new Thread1("A");
 //        Thread1 mTh2 = new Thread1("B");
 //        mTh1.start();
 //        mTh2.start();
-//        System.out.println(Thread.currentThread().getName() + " 主线程运行结束!");
+//        System.out.println(_5Thread.currentThread().getName() + " 主线程运行结束!");
 
         // 加上join方法，这个时候，主线程一定会等子线程都结束了才结束
         System.out.println(Thread.currentThread().getName() + " 主线程运行开始!");

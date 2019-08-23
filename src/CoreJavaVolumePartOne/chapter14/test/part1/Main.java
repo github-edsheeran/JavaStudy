@@ -38,7 +38,7 @@ class Thread1 extends Thread {
         for (int i = 0; i < 5; i++) {
             System.out.println(name + "运行: " + i);
             try {
-                sleep((int) Math.random() * 10);    // Thread.sleep方法调用的目的是不让当前线程霸占该进程所获取的CPU资源，以留出一定时间给其他线程执行的机会。
+                sleep((int) Math.random() * 10);    // _5Thread.sleep方法调用的目的是不让当前线程霸占该进程所获取的CPU资源，以留出一定时间给其他线程执行的机会。
                                                     // 实际上所有的多线程代码执行顺序都是不确定的，每次执行的结果都是随机的。
                                                     // 但是start方法重复调用的话，会出现java.lang.IllegalThreadStateException异常
             } catch (InterruptedException e) {
