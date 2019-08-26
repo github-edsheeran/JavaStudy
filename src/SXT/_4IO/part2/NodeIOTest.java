@@ -119,7 +119,6 @@ public class NodeIOTest {
             outputStream = new FileOutputStream(outFile);
             byte[] flush01 = new byte[1024];
             int length = -1;
-            StringBuilder sb = new StringBuilder();
 
             // 一边输入一边输出
             while ((length = inputStream.read(flush01)) != -1) {
