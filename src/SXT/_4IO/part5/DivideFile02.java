@@ -1,11 +1,9 @@
 package SXT._4IO.part5;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Vector;
 
 /**
  * @program: JavaStudy
@@ -80,8 +78,53 @@ public class DivideFile02 {
         }
     }
 
+    public void merge(String destPath) {
+        // true参数表示追加文件
+//        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destPath, true))) {
+//            for (int i = 0; i < this.destPaths.size(); i++) {
+//                InputStream is = new BufferedInputStream(new FileInputStream(this.destPaths.get(i)));
+//                int length = -1;
+//                byte[] flush01 = new byte[1024];
+//
+//                while ((length = is.read(flush01)) != -1) {
+//                    os.write(flush01, 0, length);
+//                }
+//
+//                is.close();
+//            }
+//        } catch (FileNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(destPath, true))) {
+            SequenceInputStream sis = null;
+            Vector<InputStream> vector = new Vector<>();    // 存储多个输入流
+
+            for (int i = 0; i < this.destPaths.size(); i++) {
+                vector.add(new BufferedInputStream(new FileInputStream(this.destPaths.get(i))));
+            }
+
+            sis = new SequenceInputStream(vector.elements());   // 将多个流进行合并操作，其他操作基本一致
+            int length = -1;
+            byte[] flush01 = new byte[1024];
+
+            while ((length = sis.read(flush01)) != -1) {
+                os.write(flush01, 0, length);
+            }
+
+            sis.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
         DivideFile02 df = new DivideFile02(new File("src/SXT/_4IO/part2/NodeIOTest.java"), 1024, "Dest");
         df.divideFile();
+        df.merge("Dest/merge.java");
     }
 }

@@ -1,11 +1,11 @@
 package SXT._5Thread.part1;
+
 /* @program: JavaStudy
  * @description:
  * @chineseDescription: 模拟12306抢票
  * @author: LiuDongMan
  * @createdDate: 2019-07-16 21:35
  */
-
 public class Web12306 implements Runnable{
     private int ticketNums = 99;
 
@@ -28,6 +28,8 @@ public class Web12306 implements Runnable{
 
     public static void main(String[] args) {
         Web12306 web = new Web12306();
+
+        // 三个线程，存在着抢同一张票和票数为负数的情况
         new Thread(web, "张三").start();
         new Thread(web, "李四").start();
         new Thread(web, "王五").start();

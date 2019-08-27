@@ -12,9 +12,9 @@ package SXT._5Thread.part8;
 public class SafeThreadTest {
     public static void main(String[] args) {
 //        SafeWeb12306 ex01 = new SafeWeb12306();
-//        new _5Thread(ex01, "码畜").start();
-//        new _5Thread(ex01, "码农").start();
-//        new _5Thread(ex01, "码蝗").start();
+//        new Thread(ex01, "码畜").start();
+//        new Thread(ex01, "码农").start();
+//        new Thread(ex01, "码蝗").start();
 
         Account account = new Account(1000000, "结婚礼金");
         SafeDraw husband = new SafeDraw(account, 800000);
@@ -22,7 +22,6 @@ public class SafeThreadTest {
 
         new Thread(husband, "可悲的丈夫").start();
         new Thread(wife, "高兴的媳妇").start();
-
     }
 }
 
@@ -43,6 +42,7 @@ class SafeWeb12306 implements Runnable {
         }
     }
 
+    // 当方法运行结束后，线程就会释放掉当前对象的锁，给其他线程提供机会
     public synchronized void test() {
         if (ticketNums <= 0) {
             flag = false;
@@ -80,7 +80,8 @@ class SafeDraw implements Runnable {
 
     /**
      * 通过运行可以发现，加入synchronized关键字之后依然出现线程不安全的问题，原因在于目标不对，因此造成锁定失败。这个地方，锁定的不应该是
-     * this，而应该是account对象才行。
+     * this，而应该是account对象才行
+     * 个人理解：因为是启动了两个线程，因此，synchronized关键字锁的都是各自的对象，account对象在两个线程中同时被修改，出现线程不安全的情况
      */
     public synchronized void test() {
         if (account.getMoney() - drawMoney < 0) {

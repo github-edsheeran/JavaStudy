@@ -12,29 +12,29 @@ import java.util.List;
 public class UnsafeThreadTest {
     public static void main(String[] args) {
 //        UnsafeWeb12306 web = new UnsafeWeb12306();
-//        new _5Thread(web, "张三").start();
-//        new _5Thread(web, "李四").start();
-//        new _5Thread(web, "王五").start();
+//        new Thread(web, "张三").start();
+//        new Thread(web, "李四").start();
+//        new Thread(web, "王五").start();
 
-//        Account account = new Account(1000000, "结婚礼金");
-//        Draw husband = new Draw(account, 800000);
-//        Draw wife = new Draw(account, 900000);
-//        _5Thread t1 = new _5Thread(husband, "可悲的丈夫");
-//        _5Thread t2 = new _5Thread(wife, "高兴的妻子");
-//
-//        t1.start();
-//        t2.start();
+        Account account = new Account(1000000, "结婚礼金");
+        Draw husband = new Draw(account, 800000);
+        Draw wife = new Draw(account, 900000);
+        Thread t1 = new Thread(husband, "可悲的丈夫");
+        Thread t2 = new Thread(wife, "高兴的妻子");
+
+        t1.start();
+        t2.start();
 
         // 开启多个线程操作容器
-        List<String> list = new ArrayList<>();
-
-        for (int i = 0; i < 100; i++) {
-            new Thread(() -> {
-                list.add(Thread.currentThread().getName());
-            }).start();
-        }
-
-        System.out.println(list.size());
+//        List<String> list = new ArrayList<>();
+//
+//        for (int i = 0; i < 100; i++) {
+//            new Thread(() -> {
+//                list.add(Thread.currentThread().getName());
+//            }).start();
+//        }
+//
+//        System.out.println(list.size());
     }
 }
 

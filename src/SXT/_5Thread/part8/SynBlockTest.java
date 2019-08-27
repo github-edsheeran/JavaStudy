@@ -1,5 +1,8 @@
 package SXT._5Thread.part8;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /* @program: JavaStudy
  * @description:
  * @chineseDescription: 简单理解同步块的作用
@@ -11,32 +14,32 @@ public class SynBlockTest {
 //        Account account = new Account(1000, "结婚礼金");
 //        SynDraw husband = new SynDraw(account, 80);
 //        SynDraw wife = new SynDraw(account, 90);
-//        new _5Thread(husband, "悲催的丈夫").start();
-//        new _5Thread(wife, "开心的妻子").start();
+//        new Thread(husband, "悲催的丈夫").start();
+//        new Thread(wife, "开心的妻子").start();
 
 //        List<String> list = new ArrayList<>();
 //
 //        for (int i = 0; i < 10000; i++) {
-//            new _5Thread(() -> {
+//            new Thread(() -> {
 //                synchronized (list) {
-//                    list.add(_5Thread.currentThread().getName());
+//                    list.add(Thread.currentThread().getName());
 //                }
 //            }).start();
 //        }
 //
 //        // 防止出现前面线程未跑完而主线程跑完的情况，加入sleep
 //        try {
-//            _5Thread.sleep(10000);
+//            Thread.sleep(10000);
 //        } catch (InterruptedException e) {
 //            e.printStackTrace();
 //        }
 //
 //        System.out.println(list.size());
 
-        SynWeb12306 ex01 = new SynWeb12306();
-        new Thread(ex01, "码畜").start();
-        new Thread(ex01, "码农").start();
-        new Thread(ex01, "码蝗").start();
+//        SynWeb12306 ex01 = new SynWeb12306();
+//        new Thread(ex01, "码畜").start();
+//        new Thread(ex01, "码农").start();
+//        new Thread(ex01, "码蝗").start();
     }
 }
 
@@ -101,10 +104,10 @@ class SynWeb12306 implements Runnable {
                 e.printStackTrace();
             }
 
-            //test01();
-            //test02();
-            //test03();
-            test04();
+//            test01();
+//            test02();
+            test03();
+//            test04();
         }
     }
 

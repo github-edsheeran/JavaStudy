@@ -12,14 +12,14 @@ public class StaticProxy {
     }
 }
 
-interface Marray {
+interface Marry {
     void happyMarry();
 }
 
 /**
  * 真实角色
  */
-class You implements Marray {
+class You implements Marry {
 
     @Override
     public void happyMarry() {
@@ -30,14 +30,14 @@ class You implements Marray {
 /**
  * 代理角色
  */
-class WeddingCompany implements Marray {
-    private Marray target;
+class WeddingCompany implements Marry {
+    private Marry target;
 
     public WeddingCompany() {
 
     }
 
-    public WeddingCompany(Marray target) {
+    public WeddingCompany(Marry target) {
         this.target = target;
     }
 
