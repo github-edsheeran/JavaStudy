@@ -36,10 +36,10 @@ public class SynBlockTest {
 //
 //        System.out.println(list.size());
 
-//        SynWeb12306 ex01 = new SynWeb12306();
-//        new Thread(ex01, "码畜").start();
-//        new Thread(ex01, "码农").start();
-//        new Thread(ex01, "码蝗").start();
+        SynWeb12306 ex01 = new SynWeb12306();
+        new Thread(ex01, "码畜").start();
+        new Thread(ex01, "码农").start();
+        new Thread(ex01, "码蝗").start();
     }
 }
 
@@ -106,8 +106,9 @@ class SynWeb12306 implements Runnable {
 
 //            test01();
 //            test02();
-            test03();
+//            test03();
 //            test04();
+            test05();
         }
     }
 
@@ -150,7 +151,7 @@ class SynWeb12306 implements Runnable {
     /**
      * 出现线程不安全情况，范围太小，锁定失败
      * 原因：同步块在锁定资源的时候，其中的资源是不能变的，例如，this，虽然对象的属性在发生变化，但大的对象未发生变化；而ticketNums作为
-     * 一个int变量，在下面的代码中一直发生着变化，因此锁不住
+     * 一个int变量，每个值例如1，2，3，根据面向对象的思维，都有着自己不同的对象，在下面的代码中一直发生着变化，因此锁不住
      */
     public void test03() {
         synchronized (Integer.valueOf(ticketNums)) {
@@ -196,7 +197,9 @@ class SynWeb12306 implements Runnable {
      */
     public void test05() {
         /**
-         * 考虑的是没有票的情况。需要注意的是，如果只有这儿的判断，没有下面的考虑最后一张票的判断，依然会出现线程不安全的情况
+         * 考虑的是没有票的情况，这样当一个线程进入同步块获取最后一张票时，其他线程就不用进入无意义的等待中。需要注意的是，如果只有这儿的判断，
+         * 没有下面的考虑最后一张票的判断，依然会出现线程不安全的情况，因为这儿的代码在多线程的情况下是拦不住的
+         *
          * 涉及到双重检测
          */
         if (ticketNums <= 0) {
@@ -204,6 +207,11 @@ class SynWeb12306 implements Runnable {
             return;
         }
 
+        /**
+         * 如果没有下面的考虑只剩最后一张票的情况的代码，假设有a，b，c三个线程，上面的判断代码拦不住，都在这个地方进入等待获取对象锁的状态，
+         * 当a线程获取了最后一张票，并修改ticketNums的值，即ticketNums = 0，此时假设b线程获取了对象的锁，没有下面代码做判断，会继续修改
+         * ticketNums的值，因此出现线程不安全的情况
+         */
         synchronized (this) {
             if (ticketNums <= 0) {  // 考虑的是只剩最后一张票的情况
                 flag = false;

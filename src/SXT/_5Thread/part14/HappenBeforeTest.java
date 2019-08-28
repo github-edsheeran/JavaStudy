@@ -26,7 +26,7 @@ public class HappenBeforeTest {
                 }
 
                 if (a == 0) {
-                    //这个得多运行自己才会出来
+                    // 这个得多运行几次才会出来
                     System.out.println("Happen before，此时a的值为: " + a + "，但是只有a == 0为true的情况下，才能打印这句话。");
                 }
             });

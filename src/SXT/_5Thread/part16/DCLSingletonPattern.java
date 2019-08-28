@@ -40,7 +40,6 @@ public class DCLSingletonPattern {
              * 对象初始化目前的理解是有三个步骤，1：开辟空间；2.初始化对象信息；3.返回对象的地址给引用变量；
              * 在多线程的情况下，假设还未有对象生成，此时A线程进入方法，判断对象为空，于是进行对象初始化的操作，而这个过程可能耗时很长，导致B
              * 线程进入的时候发现对象仍为空，因此，也进行对象初始化的操作，这个时候就生成了多个对象
-             *
              */
             if (null == instance) {
                 //return new DCLSingletonPattern(); // 有问题的代码，不能这样写
@@ -63,8 +62,10 @@ public class DCLSingletonPattern {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
             instance = new DCLSingletonPattern();
         }
+
         return instance;
     }
 

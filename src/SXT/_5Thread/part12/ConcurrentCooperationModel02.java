@@ -67,6 +67,7 @@ class Table {
     /**
      * T 餐桌有食物，员工享用
      * F 餐桌没食物，食堂上菜
+     * 通过类似于信号灯的标识符flag来控制多个线程的休眠与唤醒
      */
     private boolean flag = false;
 

@@ -3,7 +3,7 @@ package SXT._5Thread.part17;
 /**
  * @program: JavaStudy
  * @description:
- * @chineseDescription: ThreadLocal中，每个线程都要自己的数据存储空间，互不影响
+ * @chineseDescription: ThreadLocal中，每个线程都有自己的数据存储空间，互不影响
  * @author: LiuDongMan
  * @createdDate: 2019-08-01 08:47
  **/

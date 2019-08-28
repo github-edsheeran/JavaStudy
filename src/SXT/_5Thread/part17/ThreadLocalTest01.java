@@ -31,8 +31,8 @@ public class ThreadLocalTest01 {
         System.out.println(Thread.currentThread().getName() + " --> " + threadLocal.get());
 
         // 两个线程在ThreadLocal中有着属于自己独立的空间，数据互不影响
-        new Thread(new MyThread()).start();
-        new Thread(new MyThread()).start();
+        new Thread(new MyThread(), "线程1").start();
+        new Thread(new MyThread(), "线程2").start();
 
         threadLocal.set(99);
 
@@ -43,7 +43,7 @@ public class ThreadLocalTest01 {
 
         @Override
         public void run() {
-            // 设置值
+            // 设置值，如果这个地方不进行赋值操作，由于线程是在main线程中开辟，因此会继承main线程的ThreadLocal，其中的值为200
             threadLocal.set((int) (Math.random() * 99));
             System.out.println(Thread.currentThread().getName() + " --> " + threadLocal.get());
         }

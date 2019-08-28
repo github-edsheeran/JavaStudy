@@ -128,7 +128,7 @@ class SynchContainer {
 
         this.notifyAll();   // 消费数据，唤醒生产等待线程
 
-        return  steamedBun;
+        return steamedBun;
     }
 }
 
