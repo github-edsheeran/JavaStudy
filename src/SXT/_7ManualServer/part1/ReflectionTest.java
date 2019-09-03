@@ -30,6 +30,20 @@ public class ReflectionTest {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+        Person person02 = null;
+
+        try {
+            /**
+             * newInstance方法，根据类对象生成新的实例，但是在JDK9中被弃用，新的版本推荐使用getConstructor().newInstance()
+             */
+            person02 = (Person) aClass.newInstance();
+            System.out.println(person02);
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }
 
