@@ -1,5 +1,7 @@
 package SXT._6NetworkProgram.part5;
 
+import Utils.Utils;
+
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -19,28 +21,52 @@ public class ClientReceive implements Runnable {
 
     public ClientReceive(Socket client) {
         this.client = client;
+        this.isRunning = true;
 
         try {
             this.dis = new DataInputStream(new BufferedInputStream(client.getInputStream()));
         } catch (IOException e) {
             e.printStackTrace();
+            release();
         }
     }
 
+    /**
+     * 客户端接收服务端信息
+     */
     @Override
     public void run() {
-        String msg = "";
-
         while (this.isRunning) {
-            try {
-                msg = dis.readUTF();
+            String msg = receive();
 
-                if (!"".equals(msg)) {
-                    System.out.println(msg);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (!"".equals(msg)) {
+                System.out.println(msg);
             }
         }
+    }
+
+    /**
+     * 接收消息
+     * @return
+     */
+    private String receive() {
+        String msg = "";
+
+        try {
+            msg = dis.readUTF();
+        } catch (IOException e) {
+            e.printStackTrace();
+            release();
+        }
+
+        return msg;
+    }
+
+    /**
+     * 释放资源
+     */
+    private void release() {
+        this.isRunning = false;
+        Utils.release(client, dis);
     }
 }
