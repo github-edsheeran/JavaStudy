@@ -58,7 +58,7 @@ public class Server {
             response.print("</title>");
             response.print("</head>");
             response.print("<body>");
-            response.print("DayNight server终于回来了。。。。");
+            response.print("I'm back!");
             response.print("</body>");
             response.print("</html>");
 

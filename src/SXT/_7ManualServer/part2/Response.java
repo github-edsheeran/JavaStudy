@@ -53,7 +53,7 @@ public class Response {
 
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
         try {
-            bw.write(this.headerSB.append(this.contentSB).toString());
+            bw.write(this.headerSB.toString() + this.contentSB.toString());
             bw.flush();
         } catch (IOException e) {
             e.printStackTrace();
