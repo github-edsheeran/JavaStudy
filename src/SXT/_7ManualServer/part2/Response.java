@@ -41,7 +41,7 @@ public class Response {
      */
     public Response print(String content) {
         this.contentSB.append(content);
-        this.length += (content + CRLF).getBytes().length;   // 每次给正文添加内容，则把内容的字节长度和成员变量累加
+        this.length += content.getBytes().length;   // 每次给正文添加内容，则把内容的字节长度和成员变量累加
         return this;
     }
 
