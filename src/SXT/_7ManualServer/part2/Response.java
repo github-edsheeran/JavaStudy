@@ -12,15 +12,20 @@ import java.util.Date;
  * @createdDate: 2019-09-05 08:44
  **/
 public class Response {
-    private Socket client;
-    private OutputStream os;
-    private String statusCode;
-    private StringBuilder headerSB;
-    private StringBuilder contentSB;
-    private static final String BLANK = " ";
-    private static final String CRLF = "\r\n";
-    private int length;
+    private Socket client;  // 客户端
+    private OutputStream os;    // 输出流
+    private String statusCode;  // 响应状态码
+    private StringBuilder headerSB; // 拼接响应头信息
+    private StringBuilder contentSB;    // 拼接响应体信息
+    private static final String BLANK = " ";    // 空格
+    private static final String CRLF = "\r\n";  // 换行符
+    private int length; // 响应体内容的长度
 
+    /**
+     * 初始化
+     * @param client
+     * @param statusCode
+     */
     public Response(Socket client, String statusCode) {
         this.client = client;
 
@@ -35,7 +40,7 @@ public class Response {
     }
 
     /**
-     * 添加正文内容
+     * 添加正文内容，如果涉及到输入内容要换行的话，例如，println方法，还需要加上CRLF换行字符串的长度
      * @param content
      * @return
      */
@@ -51,7 +56,7 @@ public class Response {
     public void pushToClient() {
         createHeaderInfo();
 
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(os));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(this.os));
         try {
             bw.write(this.headerSB.toString() + this.contentSB.toString());
             bw.flush();
@@ -60,8 +65,10 @@ public class Response {
         }
     }
 
+    /**
+     * 初始化响应头信息
+     */
     private void createHeaderInfo() {
-        // 初始化响应头
         this.headerSB = new StringBuilder().append("HTTP/1.1").append(BLANK).append(statusCode).append(BLANK);
 
         switch (statusCode) {
