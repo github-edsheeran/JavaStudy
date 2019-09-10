@@ -66,7 +66,7 @@ public class Response {
     }
 
     /**
-     * 初始化响应头信息
+     * 初始化响应头信息，这个地方的响应状态码可以通过形参的形式传进来，更加灵活
      */
     private void createHeaderInfo() {
         this.headerSB = new StringBuilder().append("HTTP/1.1").append(BLANK).append(statusCode).append(BLANK);
