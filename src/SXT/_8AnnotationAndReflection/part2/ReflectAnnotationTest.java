@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
  * @author: LiuDongMan
  * @createdDate: 2019-09-09 15:43
  **/
-public class ReflectAnnotation {
+public class ReflectAnnotationTest {
     public static void main(String[] args) {
         try {
             Class aClass = Class.forName("SXT._8AnnotationAndReflection.part2.Student");
