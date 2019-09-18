@@ -4,11 +4,16 @@ import javax.script.Invocable;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URL;
+import java.util.List;
 
 /**
  * @program: JavaStudy
  * @description:
  * @chineseDescription: 简单理解java中的脚本引擎
+ * 由于日常使用较少，了解即可，如果想深入了解的话，可以详细学习Rhino的语法
  * @author: LiuDongMan
  * @createdDate: 2019-09-12 14:45
  **/
@@ -37,11 +42,23 @@ public class ScriptEngineRhinoTest {
 
             System.out.println(result);
 
-            // 导入其他java包，使用其他包中的java类
+            // 导入其他java包，使用其他包中的java类（需要注意的是，jdk1.6中，是通过importPackage(java.util)进行的导入操作，新的版本直接引用即可）
+            jsCode = "var list = java.util.Arrays.asList([\"北京大学\", \"清华大学\"]);";
+            engine.eval(jsCode);
+            List<String> list = (List<String>) engine.get("list");
 
+            for (String s : list) {
+                System.out.println(s);
+            }
+
+            // 执行一个js文件，如果要获得子文件夹内的文件，需要完整的路径
+            URL url = ScriptEngineRhinoTest.class.getClassLoader().getResource("SXT/_8AnnotationAndReflection/part7/test.js");
+            engine.eval(new FileReader(url.getPath()));
         } catch (ScriptException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
     }
