@@ -21,15 +21,41 @@ package SXT._8AnnotationAndReflection.part9;
  * @createdDate: 2019-09-20 09:29
  **/
 public class JVMMemoryAnalysis {
+    static {
+        System.out.println("静态初始化JVMMemoryAnalysis");
+    }
+
     public static void main(String[] args) {
-        A a = new A();
-        System.out.println(A.width);
+        System.out.println("JVMMemoryAnalysis的main方法");
+
+//        A a1 = new A();
+//
+//        System.out.println(A.width);
+//
+//        A a2 = new A(); // 类只会初始化一次
+
+//        System.out.println(A.MAX);
+
+//        try {
+//            Class.forName("SXT._8AnnotationAndReflection.part9.A"); // 对类进行反射也会进行初始化类的操作
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
+
+//        A[] as = new A[10]; // 通过数组定义类引用，不会触发此类的初始化
+
+        System.out.println(B.width);    // 当访问一个静态域时，只有真正声明这个域的类才会被初始化，通过子类引用父类的静态变量，不会导致子类初始化
     }
 }
 
-class A {
+/**
+ * 如果发现其父类还没有进行过初始化，则需要先执行父类的初始化
+ */
+class A extends A_Father {
     // 类构造器是由所有类变量和静态语句块合并产生，这个动作由编译器进行，因此，这两段代码会优先执行
     public static int width = 200;
+
+    public static final int MAX = 300;  // 调用类的静态常量不会进行初始化类的操作，常量在编译阶段就存入调用类的常量池中了
 
     static {
         System.out.println("静态初始化类A");
@@ -38,5 +64,17 @@ class A {
 
     public A() {
         System.out.println("创建类A对象");
+    }
+}
+
+class A_Father {
+    static {
+        System.out.println("静态初始化A_Father");
+    }
+}
+
+class B extends A {
+    static {
+        System.out.println("静态初始化类B");
     }
 }
