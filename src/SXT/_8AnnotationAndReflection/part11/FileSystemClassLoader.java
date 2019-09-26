@@ -30,7 +30,7 @@ public class FileSystemClassLoader extends ClassLoader {
                 // 根据双亲委托机制，先用父加载器进行加载，如果不能加载，再使用子加载器进行加载，但是会出现父加载器无法加载而抛出异常的情况
                 aClass = parent.loadClass(name);
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();    // 出于学习目的，这个地方的异常打印可以注释掉
             }
 
             if (aClass != null) {
@@ -57,7 +57,7 @@ public class FileSystemClassLoader extends ClassLoader {
         String path = this.rootDir + "/" + name.replace('.', '/') + ".class";
         File file = new File(path);
         byte[] flush01 = new byte[1024];
-        int length = 0;
+        int length = -1;
 
         try (InputStream is = new BufferedInputStream(new FileInputStream(file));
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -78,6 +78,24 @@ public class FileSystemClassLoader extends ClassLoader {
     }
 
     public static void main(String[] args) {
+        FileSystemClassLoader fscl01 = new FileSystemClassLoader("D:/JavaTest");
+        FileSystemClassLoader fscl02 = new FileSystemClassLoader("D:/JavaTest");
 
+        try {
+            Class<?> aClass = fscl01.loadClass("SXT._8AnnotationAndReflection.part11.HelloWorld");
+            Class<?> bClass = fscl01.loadClass("SXT._8AnnotationAndReflection.part11.HelloWorld");
+            Class<?> cClass = fscl02.loadClass("SXT._8AnnotationAndReflection.part11.HelloWorld");
+            Class<?> dClass = fscl01.loadClass("java.lang.String"); // 由于双亲委托机制的存在，可以利用启动(引导)类加载器加载核心包中的类
+            Class<?> eClass = fscl01.loadClass("SXT._8AnnotationAndReflection.part11.FileSystemClassLoader");
+
+            System.out.println(aClass.hashCode());
+            System.out.println(bClass.hashCode());
+            System.out.println(cClass.hashCode());  // 同一个类，被不同的加载器加载，JVM认为是不同的类
+            System.out.println(cClass.getClassLoader());
+            System.out.println(dClass.getClassLoader());    // 由于启动(引导)类加载器底层是由其他语言实现的，因此这个地方为null
+            System.out.println(eClass.getClassLoader());    // 由于双亲委托机制的存在，会优先看父加载器是否能加载，这个时候，应用程序类加载器可以加载这个类，因此优先使用
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 }
