@@ -24,7 +24,7 @@ public class TestJDBC {
              * 8.0 以上版本不需要建立SSL连接的，需要显示关闭
              * 连接对象内部其实包含了Socket对象，是一个远程连接，比较耗时，后期真正的开发中，为了提高效率，都会使用连接池来管理连接对象
              */
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=UTC","root","123456");
+            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/test?useSSL=false&serverTimezone=GMT%2B8","root","123456");
 
             long endTime = System.currentTimeMillis();
 
