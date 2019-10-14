@@ -1,5 +1,8 @@
 package SXT._12ManualSORMFramework.bean;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,10 +28,23 @@ public class TableInfo {
      */
     private ColumnInfo onlyPrimaryKey;
 
-    public TableInfo(String name, Map<String, ColumnInfo> columns, ColumnInfo onlyPrimaryKey) {
+    /**
+     * 如果有联合主键，则在这里存储
+     */
+    private List<ColumnInfo> primaryKeys;
+
+    public List<ColumnInfo> getPrimaryKeys() {
+        return primaryKeys;
+    }
+
+    public void setPrimaryKeys(List<ColumnInfo> primaryKeys) {
+        this.primaryKeys = primaryKeys;
+    }
+
+    public TableInfo(String name, List<ColumnInfo> primaryKeys, Map<String, ColumnInfo> columns) {
         this.name = name;
         this.columns = columns;
-        this.onlyPrimaryKey = onlyPrimaryKey;
+        this.primaryKeys = primaryKeys;
     }
 
     public TableInfo() {
