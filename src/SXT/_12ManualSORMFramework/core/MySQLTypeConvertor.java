@@ -10,26 +10,26 @@ package SXT._12ManualSORMFramework.core;
 public class MySQLTypeConvertor implements TypeConvertor {
     @Override
     public String databaseTypeToJavaType(String columnType) {
-        if("varchar".equalsIgnoreCase(columnType) || "char".equalsIgnoreCase(columnType)){
+        if ("varchar".equalsIgnoreCase(columnType) || "char".equalsIgnoreCase(columnType)) {
             return "String";
-        }else if("int".equalsIgnoreCase(columnType) || "tinyint".equalsIgnoreCase(columnType)
+        } else if ("int".equalsIgnoreCase(columnType) || "tinyint".equalsIgnoreCase(columnType)
                 || "smallint".equalsIgnoreCase(columnType)
                 || "integer".equalsIgnoreCase(columnType)
-        ){
+        ) {
             return "Integer";
-        }else if("bigint".equalsIgnoreCase(columnType)){
+        } else if ("bigint".equalsIgnoreCase(columnType)) {
             return "Long";
-        }else if("double".equalsIgnoreCase(columnType)||"float".equalsIgnoreCase(columnType)){
+        } else if ("double".equalsIgnoreCase(columnType) || "float".equalsIgnoreCase(columnType)) {
             return "Double";
-        }else if("clob".equalsIgnoreCase(columnType)){
+        } else if ("clob".equalsIgnoreCase(columnType)) {
             return "java.sql.CLob";
-        }else if("blob".equalsIgnoreCase(columnType)){
+        } else if ("blob".equalsIgnoreCase(columnType)) {
             return "java.sql.BLob";
-        }else if("date".equalsIgnoreCase(columnType)){
+        } else if ("date".equalsIgnoreCase(columnType)) {
             return "java.sql.Date";
-        }else if("time".equalsIgnoreCase(columnType)){
+        } else if ("time".equalsIgnoreCase(columnType)) {
             return "java.sql.Time";
-        }else if("timestamp".equalsIgnoreCase(columnType)){
+        } else if ("timestamp".equalsIgnoreCase(columnType)) {
             return "java.sql.Timestamp";
         }
 

@@ -74,4 +74,8 @@ public class DBManager {
             e.printStackTrace();
         }
     }
+
+    public static Configuration getConf() {
+        return conf;
+    }
 }
