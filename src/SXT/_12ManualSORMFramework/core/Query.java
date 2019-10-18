@@ -29,7 +29,7 @@ public interface Query {
      * @param aClass 数据库表所对应的Class类对象
      * @param id 主键的值
      */
-    void delete(Class aClass, int id);
+    void delete(Class aClass, Object id);
 
     /**
      * 删除对象所对应的数据库表中的记录

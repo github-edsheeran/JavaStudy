@@ -3,6 +3,7 @@ package SXT._12ManualSORMFramework.core;
 import SXT._12ManualSORMFramework.bean.ColumnInfo;
 import SXT._12ManualSORMFramework.bean.TableInfo;
 import SXT._12ManualSORMFramework.utils.JavaFileUtils;
+import SXT._12ManualSORMFramework.utils.StringUtils;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -72,9 +73,9 @@ public class TableContext {
 
         // 当框架启动的时候就更新类结构
         updateJavaPOFile();
-//
-//        // 加载po包下面所有的类，便于重用，提高效率！
-//        loadPOTables();
+
+        // 加载po包下面所有的类，并且将其和对应的TableInfo表对象进行关联
+        loadPOTables();
     }
 
     /**
@@ -88,23 +89,21 @@ public class TableContext {
             JavaFileUtils.createJavaPOFile(t, new MySQLTypeConvertor());
         }
     }
-//
-//    /**
-//     * 加载po包下面的类
-//     */
-//    public static void loadPOTables(){
-//
-//        for(TableInfo tableInfo:tables.values()){
-//            try {
-//                Class c = Class.forName(DBManager.getConf().getPoPackage()
-//                        +"."+StringUtils.firstChar2UpperCase(tableInfo.getTname()));
-//                poClassTableMap.put(c, tableInfo);
-//            } catch (ClassNotFoundException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//
-//    }
+
+    /**
+     * 加载po包下面的类，并将其Class类对象和TableInfo表对象利用map进行关联
+     */
+    public static void loadPOTables(){
+        for(TableInfo tableInfo:tables.values()){
+            try {
+                Class c = Class.forName(DBManager.getConf().getPoPackage()
+                        +"."+ StringUtils.firstCharToUppercase(tableInfo.getName()));
+                poClassTableMap.put(c, tableInfo);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 
     public static void main(String[] args) {
