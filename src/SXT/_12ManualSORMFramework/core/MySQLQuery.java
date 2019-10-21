@@ -5,12 +5,11 @@ import SXT._12ManualSORMFramework.bean.TableInfo;
 import SXT._12ManualSORMFramework.po.Emp;
 import SXT._12ManualSORMFramework.utils.JDBCUtils;
 import SXT._12ManualSORMFramework.utils.ReflectUtils;
+import SXT._12ManualSORMFramework.vo.EmpVO;
 import SXT._8AnnotationAndReflection.part2.Table;
 
 import java.lang.reflect.Field;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,13 +23,29 @@ import java.util.Map;
  **/
 public class MySQLQuery implements Query {
     public static void main(String[] args) {
-        Emp emp = new Emp();
+//        Emp emp = new Emp();
+//
+//        emp.setId(40);
+//        emp.setEmpName("田七");
+//        emp.setPassword("123456");
+//
+//        new MySQLQuery().update(emp, new String[]{"empName"});
 
-        emp.setId(40);
-        emp.setEmpName("田七");
-        emp.setPassword("123456");
+//        String sql = "SELECT * FROM EMP WHERE ID = ?";
+//        Emp emp = (Emp) new MySQLQuery().queryUniqueRow(sql, Emp.class, new Object[]{3});
+//
+//
+//        System.out.println(emp.getId() + " --> " + emp.getEmpName() + " --> " + emp.getPassword());
 
-        new MySQLQuery().update(emp, new String[]{"empName"});
+//        String sql = "SELECT A.id, A.empName, A.salary + A.bonus 'totalSalary', B.deptName, B.address FROM emp A LEFT JOIN dept B ON A.deptID = B.id";
+//        List<EmpVO> list = new MySQLQuery().queryRows(sql, EmpVO.class, null);
+//
+//        for (EmpVO empVO : list) {
+//            System.out.println(empVO.getId() + " --> " + empVO.getEmpName() + " --> " + empVO.getTotalSalary() + " --> " + empVO.getDeptName() + " --> " + empVO.getAddress());
+//        }
+
+        String sql = "SELECT empName FROM emp WHERE id = ?";
+        System.out.println(new MySQLQuery().queryValue(sql, new Object[]{2}));
     }
 
     @Override
@@ -150,22 +165,80 @@ public class MySQLQuery implements Query {
 
     @Override
     public List queryRows(String sql, Class aClass, Object[] params) {
+        Connection conn = DBManager.getConnection();
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        ResultSetMetaData metaData = null;
+        List list = new ArrayList();
 
-        return null;
+        try {
+            ps = conn.prepareStatement(sql);
+
+            JDBCUtils.handleParams(ps, params);
+
+            rs = ps.executeQuery();
+            metaData = ps.getMetaData();    // 获取数据库表相关的元数据
+
+            while (rs.next()) {
+                Object rowObj = aClass.newInstance();   // 根据类对象创建相应的对象
+
+                for (int i = 0; i < metaData.getColumnCount(); i++) {
+                    String columnName = metaData.getColumnLabel(i + 1);  // JDBC中的所有索引都是从1开始的
+                    Object columnValue = rs.getObject(i + 1);
+
+                    ReflectUtils.invokeSet(rowObj, columnName, columnValue);
+                }
+
+                list.add(rowObj);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } finally {
+            DBManager.close(rs, ps, conn);
+        }
+
+        return list;
     }
 
     @Override
     public Object queryUniqueRow(String sql, Class aClass, Object[] params) {
-        return null;
+        List list = queryRows(sql, aClass, params);
+
+        return (list != null && list.size() > 0) ? list.get(0) : null;
     }
 
     @Override
     public Object queryValue(String sql, Object[] params) {
-        return null;
+        Connection conn = DBManager.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Object object = null;
+
+        try {
+            ps = conn.prepareStatement(sql);
+
+            JDBCUtils.handleParams(ps, params);
+
+            rs = ps.executeQuery();
+
+            while (rs.next()) {
+                object = rs.getObject(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBManager.close(rs, ps, conn);
+        }
+
+        return object;
     }
 
     @Override
     public Number queryNumber(String sql, Object[] params) {
-        return null;
+        return (Number) queryValue(sql, params);
     }
 }

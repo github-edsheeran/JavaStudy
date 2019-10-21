@@ -20,7 +20,7 @@ public class ReflectUtils {
      */
     public static Object invokeGet(Class aClass, String fieldName, Object object) {
         try {
-            Method method = aClass.getMethod("get" + StringUtils.firstCharToUppercase(fieldName), null);
+            Method method = aClass.getDeclaredMethod("get" + StringUtils.firstCharToUppercase(fieldName), null);
             return method.invoke(object, null);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
@@ -31,5 +31,25 @@ public class ReflectUtils {
         }
 
         return null;
+    }
+
+    /**
+     * 调用指定对象的对应属性的set方法
+     * @param object 指定的对象
+     * @param columnName 属性所对应的列名
+     * @param columnValue 属性所对应的数据库表中字段的值
+     */
+    public static void invokeSet(Object object, String columnName, Object columnValue) {
+        try {
+            // 第二个参数的参数类型即数据库查询出来返回值的类型，例如，查询出来的值类型为java.lang.String，这儿的参数类型也是这个
+            Method method = object.getClass().getDeclaredMethod("set" + StringUtils.firstCharToUppercase(columnName), columnValue.getClass());
+            method.invoke(object, columnValue);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 }
