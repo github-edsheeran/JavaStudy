@@ -36,8 +36,20 @@ public class Configuration {
      * 扫描生成java类的包(po:persistence object)
      */
     private String poPackage;
+    /**
+     * 项目使用的是哪一个数据库查询类
+     */
+    private String queryClass;
+    /**
+     * 数据库连接池最大连接数
+     */
+    private int poolMaxSize;
+    /**
+     * 数据库连接池最小连接数
+     */
+    private int poolMinSize;
 
-    public Configuration(String driver, String url, String user, String password, String usingDB, String srcPath, String poPackage) {
+    public Configuration(String driver, String url, String user, String password, String usingDB, String srcPath, String poPackage, String queryClass, int poolMaxSize, int poolMinSize) {
         this.driver = driver;
         this.url = url;
         this.user = user;
@@ -45,6 +57,9 @@ public class Configuration {
         this.usingDB = usingDB;
         this.srcPath = srcPath;
         this.poPackage = poPackage;
+        this.queryClass = queryClass;
+        this.poolMaxSize = poolMaxSize;
+        this.poolMinSize = poolMinSize;
     }
 
     public Configuration() {
@@ -104,5 +119,29 @@ public class Configuration {
 
     public void setPoPackage(String poPackage) {
         this.poPackage = poPackage;
+    }
+
+    public String getQueryClass() {
+        return queryClass;
+    }
+
+    public void setQueryClass(String queryClass) {
+        this.queryClass = queryClass;
+    }
+
+    public int getPoolMaxSize() {
+        return poolMaxSize;
+    }
+
+    public void setPoolMaxSize(int poolMaxSize) {
+        this.poolMaxSize = poolMaxSize;
+    }
+
+    public int getPoolMinSize() {
+        return poolMinSize;
+    }
+
+    public void setPoolMinSize(int poolMinSize) {
+        this.poolMinSize = poolMinSize;
     }
 }

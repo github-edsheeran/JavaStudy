@@ -41,9 +41,12 @@ public class ReflectUtils {
      */
     public static void invokeSet(Object object, String columnName, Object columnValue) {
         try {
-            // 第二个参数的参数类型即数据库查询出来返回值的类型，例如，查询出来的值类型为java.lang.String，这儿的参数类型也是这个
-            Method method = object.getClass().getDeclaredMethod("set" + StringUtils.firstCharToUppercase(columnName), columnValue.getClass());
-            method.invoke(object, columnValue);
+            // 对于数据库字段值为空的情况，不去调用相应的set方法
+            if (columnValue != null) {
+                // 第二个参数的参数类型即数据库查询出来返回值的类型，例如，查询出来的值类型为java.lang.String，这儿的参数类型也是这个
+                Method method = object.getClass().getDeclaredMethod("set" + StringUtils.firstCharToUppercase(columnName), columnValue.getClass());
+                method.invoke(object, columnValue);
+            }
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

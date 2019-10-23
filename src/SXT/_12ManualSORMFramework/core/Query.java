@@ -15,11 +15,12 @@ import java.util.Map;
 /**
  * @program: JavaStudy
  * @description:
- * @chineseDescription: 负责数据库的DML操作(对外提供服务的核心接口)
+ * @chineseDescription: 负责数据库的DML操作(对外提供服务的核心接口)，在未使用连接池之前，数据库的相关连接对象一定要记得关闭，
+ * 否则在循环调用测试的时候会出现连接数量过多的问题
  * @author: LiuDongMan
  * @createdDate: 2019-10-08 15:19
  **/
-public abstract class Query {
+public abstract class Query implements Cloneable {
     public static void main(String[] args) {
 //        List<Emp> list = new MySQLQuery().queryRows("SELECT * FROM emp WHERE id > ?", Emp.class, new Object[]{3});
 //
@@ -27,7 +28,7 @@ public abstract class Query {
 //            System.out.println(emp.getId() + " --> " + emp.getEmpName() + " --> " + emp.getPassword());
 //        }
 
-        System.out.println(new MySQLQuery().queryValue("SELECT empName FROM emp WHERE id = ?", new Object[]{4}));
+        System.out.println(QueryFactory.createQuery().queryValue("SELECT empName FROM emp WHERE id = ?", new Object[]{4}));
     }
 
     /**
@@ -305,6 +306,8 @@ public abstract class Query {
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
+                } finally {
+                    DBManager.close(rs, ps, conn);
                 }
 
                 return object;
@@ -335,6 +338,18 @@ public abstract class Query {
     }
 
     /**
+     * 根据id查询相应的信息
+     * @return
+     */
+    public Object queryById(Class aClass, Object id) {
+        TableInfo tableInfo = TableContext.poClassTableMap.get(aClass);
+        String sql = new StringBuilder("SELECT * FROM ").append(tableInfo.getName()).append(" WHERE ").append(tableInfo.getOnlyPrimaryKey()).
+                append(" = ?").toString();
+
+        return queryUniqueRow(sql, aClass, new Object[]{id});
+    }
+
+    /**
      * 查询返回一个数字，即一行一列，并将该值返回，由于Number是所有数字包装类的父类，因此，作为返回值的参数类型
      * @param sql 查询语句
      * @param params SQL语句的参数
@@ -342,5 +357,10 @@ public abstract class Query {
      */
     public Number queryNumber(String sql, Object[] params) {
         return (Number) queryValue(sql, params);
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }
