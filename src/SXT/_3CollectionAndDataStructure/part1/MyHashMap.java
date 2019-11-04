@@ -11,9 +11,15 @@ import java.util.Map;
  * @createdDate: 2019-08-14 09:53
  **/
 public class MyHashMap<K, V> {
-    private Node<K, V>[] table; // 位桶数组，存储Node节点
+    /**
+     * 位桶数组，存储Node节点
+     */
+    private Node<K, V>[] table;
     private static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // 相当于16
-    private int size;   // 元素个数
+    /**
+     * 元素个数
+     */
+    private int size;
 
     public MyHashMap() {
         table = new Node[DEFAULT_INITIAL_CAPACITY];

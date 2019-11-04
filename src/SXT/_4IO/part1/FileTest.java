@@ -10,10 +10,25 @@ import java.io.File;
  * @createdDate: 2019-08-16 15:11
  **/
 public class FileTest {
+    /**
+     * 文件路径
+     */
     private String path;
+    /**
+     * 文件大小总和
+     */
     private int size;
+    /**
+     * 源文件对象
+     */
     private File src;
+    /**
+     * 文件个数
+     */
     private int fileCount;
+    /**
+     * 目录个数
+     */
     private int dirCount = -1;  // 如果传入的是文件夹路径，这个时候遍历文件夹个数的时候会把自己也给算上，因此赋值-1
 
     public FileTest() {
@@ -31,7 +46,7 @@ public class FileTest {
      */
     private void countDirSize(File file) {
         if (null != file && file.exists()) {
-            if (file.isFile()) {
+            if (file.isFile()) {    // 判断是否为文件
                 size += file.length();
                 fileCount++;
             } else {

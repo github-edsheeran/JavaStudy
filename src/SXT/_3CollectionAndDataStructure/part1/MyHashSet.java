@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @program: JavaStudy
  * @description:
- * @chineseDescription: 实现一个简单的HashSet
+ * @chineseDescription: 实现一个简单的HashSet，需要注意的是，没有get方法，要获取其中的元素，只能通过游标迭代的方式
  * @author: LiuDongMan
  * @createdDate: 2019-08-15 15:04
  **/
@@ -30,10 +30,13 @@ public class MyHashSet<E> {
 
     public static void main(String[] args) {
         List<String> list = new ArrayList<>();
+
         list.add("1");
         list.add("2");
         list.add("3");
+
         Iterator<String> iterator = list.iterator();
+
         while (iterator.hasNext()) {
             System.out.println(iterator.next());
         }

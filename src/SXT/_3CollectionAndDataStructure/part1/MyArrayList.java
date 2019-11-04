@@ -9,8 +9,17 @@ import java.util.Arrays;
  * @createdDate: 2019-08-12 20:47
  */
 public class MyArrayList<E> {
+    /**
+     * 元素个数
+     */
     private int size;
+    /**
+     * 默认容量
+     */
     private static int DEFAULT_CAPACITY = 10;
+    /**
+     * 元素数组
+     */
     private Object[] elementData;
 
     /**

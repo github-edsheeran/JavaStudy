@@ -8,8 +8,17 @@ package SXT._3CollectionAndDataStructure.part1;
  * @createdDate: 2019-08-13 08:41
  **/
 public class MyLinkedList<E> {
+    /**
+     * 第一个节点
+     */
     private Node<E> first;
+    /**
+     * 最后一个节点
+     */
     private Node<E> last;
+    /**
+     * 元素个数
+     */
     private int size;
 
     /**
