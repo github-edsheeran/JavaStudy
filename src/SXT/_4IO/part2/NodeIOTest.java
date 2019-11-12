@@ -20,12 +20,12 @@ public class NodeIOTest {
 
         try {
             inputStream = new FileInputStream(file);
-            int temp;
+            int temp = -1;
 
             // 3.操作读取数据
             while ((temp = inputStream.read()) != -1) {
 //                System.out.print((char) inputStream.read());  // 这种方式不可取，因为循环判断的时候已经从流中取了一次数据
-                System.out.print((char) temp);
+                System.out.print((char) temp);  // 单个字节的读取对于英文字符来说没有问题，但是涉及到中文的话，会出现乱码的问题
             }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -52,7 +52,7 @@ public class NodeIOTest {
 
         try {
             inputStream = new FileInputStream(file);
-            byte[] flush = new byte[1024];  // 实际中一般都是读取单位计数的大小
+            byte[] flush = new byte[1024];  // 实际中一般都是读取单位计数的大小，例如1KB、1MB等
             int length = -1;
 
             while ((length = inputStream.read(flush)) != -1) {
@@ -75,7 +75,7 @@ public class NodeIOTest {
     }
 
     /**
-     * 通过FileOutputStream实现输出内容到文件的功能
+     * 通过FileOutputStream实现输出内容到文件的功能，在事先知晓文件内容和大小的情况下，可以直接通过文件输出流进行输出
      */
     public static void exampleThree() {
         // 输入流中，需要保证文件必须存在；而在输出流中，如果文件不存在，则会创建一个文件
@@ -85,7 +85,7 @@ public class NodeIOTest {
         try {
             outputStream = new FileOutputStream(file);
 //            outputStream = new FileOutputStream(file, true);  // 如果为true，则是在文件内容后面追加内容；默认为false，即重写
-            String msg = "I am LiuDongMan!";
+            String msg = "I am LiuDongMan! I'm come from China! 我是刘东满！我来自中国！";
             byte[] flush = msg.getBytes();
             outputStream.write(flush, 0, flush.length);
             outputStream.flush();
@@ -151,7 +151,7 @@ public class NodeIOTest {
     }
 
     /**
-     * 通过FileReader实现单个字符读取文件的功能
+     * 通过FileReader实现单个字符读取文件的功能，相对于字节读取，字符读取中文内容的时候，兼容性更好
      * 虽然有着自己的一些特性，但是大体上和字节差不多
      */
     public static void exampleFive() {
@@ -160,7 +160,7 @@ public class NodeIOTest {
 
         try {
             reader = new FileReader(file);
-            int temp;
+            int temp = -1;
 
             while ((temp = reader.read()) != -1) {
                 System.out.print((char) temp);
@@ -243,7 +243,7 @@ public class NodeIOTest {
     public static void exampleEight() {
         byte[] src = "Talk is cheap, show me the code!".getBytes();
         InputStream is = new ByteArrayInputStream(src);
-        int temp;
+        int temp = -1;
 
         // 由于是从内存中读取数据，因此不需要通知操作系统进行关闭操作，相应的资源会通过垃圾回收机制进行释放
         try {
@@ -280,7 +280,7 @@ public class NodeIOTest {
         byte[] dest = null;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();   // 由于要使用到子类自己的方法，因此不使用多态
         byte[] src = "Talk is cheap, show me the code!".getBytes(); // 数据源，后期可能从内存中取
-        baos.write(src, 0, src.length);
+        baos.write(src, 0, src.length); // 将数据写入到内存中
 
         try {
             baos.flush();
@@ -288,7 +288,7 @@ public class NodeIOTest {
             e.printStackTrace();
         }
 
-        dest = baos.toByteArray();
+        dest = baos.toByteArray();  // 将写入到内存中的数据存储到字节数组中
         System.out.println(new String(dest));
     }
 

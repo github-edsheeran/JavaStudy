@@ -99,7 +99,7 @@ public class HandlerIOTest {
 
         // 将字节流转换为字符流，并指定具体的字符集
 //        try (InputStreamReader reader = new InputStreamReader(new URL("http://www.baidu.com").openStream(), "UTF-8")) {
-//            int temp;
+//            int temp = -1;
 //
 //            while ((temp = reader.read()) != -1) {
 //                System.out.print((char) temp);
@@ -114,7 +114,7 @@ public class HandlerIOTest {
 
         // 字节流，因此存在字节数不够出现乱码的问题
 //        try (InputStream is = new URL("http://www.baidu.com").openStream()) {
-//            int temp;
+//            int temp = -1;
 //
 //            while ((temp = is.read()) != -1) {
 //                System.out.print((char) temp);
@@ -154,13 +154,13 @@ public class HandlerIOTest {
 
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              DataOutputStream dos = new DataOutputStream(new BufferedOutputStream(baos))) {
-            dos.writeUTF("Hello, world!");
+            dos.writeUTF("Hello, world!");  // 将数据写入到内存中
             dos.writeBoolean(true);
             dos.writeChar('a');
             dos.writeDouble(2);
             dos.flush();    // 额外注意
 
-            byte[] flush = baos.toByteArray();
+            byte[] flush = baos.toByteArray();  // 将写入到内存中的数据存入到字节数组中
             System.out.println(flush.length);
             dis = new DataInputStream(new BufferedInputStream(new ByteArrayInputStream(flush)));
 
@@ -307,9 +307,9 @@ public class HandlerIOTest {
 //        exampleOne();
 //        exampleTwo();
 //        exampleThree();
-//        exampleFour();
+        exampleFour();
 //        exampleFive();
-        exampleSix();
+//        exampleSix();
     }
 }
 

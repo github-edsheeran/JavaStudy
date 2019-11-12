@@ -15,9 +15,9 @@ public class DecoratorPattern02 {
     public static void main(String[] args) {
         Drink coffee = new Coffee();
         Drink sugar = new Sugar(coffee);    // 装饰
-        System.out.println(sugar.info() + " --> " + sugar.cost());
+//        System.out.println(sugar.info() + " --> " + sugar.cost());
         Drink milk = new Milk(coffee);  // 装饰
-        System.out.println(milk.info() + " --> " + milk.cost());
+//        System.out.println(milk.info() + " --> " + milk.cost());
         milk = new Milk(sugar); // 装饰
         System.out.println(milk.info() + " --> " + milk.cost());
     }
