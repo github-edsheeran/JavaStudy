@@ -12,7 +12,6 @@ public class AllStates {
             for (int i = 0; i < 5; i++) {
                 System.out.println("...");
 
-
                 try {
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
@@ -25,11 +24,11 @@ public class AllStates {
 
         thread.start();
 
-//        while (thread.getState() != _5Thread.State.TERMINATED) {
+//        while (thread.getState() != Thread.State.TERMINATED) {
 //            System.out.println(thread.getState());
 //
 //            try {
-//                _5Thread.sleep(500);
+//                Thread.sleep(500);
 //            } catch (InterruptedException e) {
 //                e.printStackTrace();
 //            }
