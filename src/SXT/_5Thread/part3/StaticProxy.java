@@ -23,7 +23,7 @@ class You implements Marry {
 
     @Override
     public void happyMarry() {
-        System.out.println("你和嫦娥本月了!");
+        System.out.println("你和嫦娥奔月了!");
     }
 }
 

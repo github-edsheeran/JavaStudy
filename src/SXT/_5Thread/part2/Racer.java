@@ -7,7 +7,7 @@ package SXT._5Thread.part2;
  * @createdDate: 2019-07-18 22:25
  */
 public class Racer implements Runnable{
-    private static String winner;
+    private String winner;
 
     @Override
     public void run() {
