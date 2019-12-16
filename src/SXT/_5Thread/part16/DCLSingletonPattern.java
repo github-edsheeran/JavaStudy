@@ -13,7 +13,9 @@ package SXT._5Thread.part16;
 public class DCLSingletonPattern {
     /**
      * 如果未加入volatile修饰，则可能A线程在初始化对象的过程中，由于受到CPU指令重排的影响，导致提前返回一个还未初始化的对象，使得其他线程访
-     * 问一个没有初始化的对象
+     * 问一个空对象
+     *
+     * 如果这个地方进行对象初始化的操作，则称为饿汉式；反之则是懒汉式
      */
     private static volatile DCLSingletonPattern instance;
 
@@ -26,7 +28,10 @@ public class DCLSingletonPattern {
      * @return
      */
     public static DCLSingletonPattern getInstance() {
-        // 加入double checking进行再次检测，防止出现不必要的同步阻塞
+        /**
+         * 加入double checking进行再次检测，防止出现不必要的同步阻塞。如果不加入double checking，假设有1000个线程，A线程先获得类对象的锁，
+         * 进入同步块之后，这个时候生成了相应的对象，但是存在网络延时等突发情况，使得其他线程都被阻塞，造成不必要的消耗
+         */
         if (null != instance) {
             return instance;
         }
@@ -38,7 +43,7 @@ public class DCLSingletonPattern {
         synchronized (DCLSingletonPattern.class) {
             /**
              * 对象初始化目前的理解是有三个步骤，1：开辟空间；2.初始化对象信息；3.返回对象的地址给引用变量；
-             * 在多线程的情况下，假设还未有对象生成，此时A线程进入方法，判断对象为空，于是进行对象初始化的操作，而这个过程可能耗时很长，导致B
+             * 在多线程的情况下，如果未加入同步锁且还未有对象生成，此时A线程进入方法，判断对象为空，于是进行对象初始化的操作，而这个过程可能耗时很长，导致B
              * 线程进入的时候发现对象仍为空，因此，也进行对象初始化的操作，这个时候就生成了多个对象
              */
             if (null == instance) {
@@ -70,9 +75,11 @@ public class DCLSingletonPattern {
     }
 
     public static void main(String[] args) {
-        new Thread(() -> {
-            System.out.println(DCLSingletonPattern.getInstance());
-        }).start();
+        for (int i = 0; i < 1000; i++) {
+            new Thread(() -> {
+                System.out.println(DCLSingletonPattern.getInstance());
+            }).start();
+        }
 
         System.out.println(DCLSingletonPattern.getInstance());
     }

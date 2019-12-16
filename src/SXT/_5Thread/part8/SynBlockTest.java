@@ -176,7 +176,7 @@ class SynWeb12306 implements Runnable {
      * 线程以同样的方式进入方法，这个时候，三个线程抢同一张票，出现线程不安全的情况
      */
     public void test04() {
-        synchronized (Integer.valueOf(ticketNums)) {
+        synchronized (this) {
             if (ticketNums <= 0) {
                 flag = false;
                 return;

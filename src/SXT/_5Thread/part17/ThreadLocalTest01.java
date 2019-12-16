@@ -3,6 +3,7 @@ package SXT._5Thread.part17;
 /* @program: JavaStudy
  * @description:
  * @chineseDescription: 简单理解ThreadLocal，可以理解为是多个线程的共享区域，但是其中的每一个线程又有着自己的独立空间，数据互不影响
+ *
  * @author: LiuDongMan
  * @createdDate: 2019-07-31 21:52
  */
